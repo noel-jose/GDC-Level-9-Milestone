@@ -1,40 +1,26 @@
 from random import choices
-from django.http import HttpResponse
-from django.views import View
 
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import render
+from django.views import View
+from django_filters.rest_framework import (BooleanFilter, CharFilter,
+                                           ChoiceFilter, DateFromToRangeFilter,
+                                           DjangoFilterBackend, FilterSet,
+                                           ModelChoiceFilter)
+from django_filters.widgets import RangeWidget
+from rest_framework import mixins
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.serializers import ModelSerializer
+from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from tasks.models import STATUS_CHOICES, Task, TaskHistory
 
-from rest_framework.views import APIView
-
-from rest_framework.response import Response
-
-from rest_framework.serializers import ModelSerializer
-
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-
-from rest_framework.permissions import IsAuthenticated
-
-from django.contrib.auth.models import User
-
-from rest_framework import mixins
-
 from .models import TaskHistory
-
-from .serializers import TaskSerializer, TaskHistorySerializer
-
-from django_filters.rest_framework import (
-    DjangoFilterBackend,
-    FilterSet,
-    CharFilter,
-    ChoiceFilter,
-    BooleanFilter,
-    DateFromToRangeFilter,
-    ModelChoiceFilter,
-)
-from django_filters.widgets import RangeWidget
+from .serializers import TaskHistorySerializer, TaskSerializer
 
 
 class TaskFilter(FilterSet):

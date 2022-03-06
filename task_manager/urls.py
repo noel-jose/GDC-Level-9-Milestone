@@ -28,9 +28,11 @@ from tasks.tasks import test_background_jobs
 
 from django.http import HttpResponse
 
+
 def test_bg(request):
     test_background_jobs.delay()
     return HttpResponse("All Good Here")
+
 
 router = SimpleRouter()
 router.register(prefix="api/tasks", viewset=TaskViewSet)
@@ -46,13 +48,12 @@ urlpatterns = [
     path("complete_task/<pk>/", GenericTaskCompleteView.as_view()),
     path("completed_tasks/", GenericCompletedTaskView.as_view()),
     path("all_tasks/", GenericAllTaskView.as_view()),
-    path("update-task/<pk>", GenericTaskUpdateView.as_view()),
-    path("detail-task/<pk>", GenericTaskDetailView.as_view()),
+    path("update-task/<pk>/", GenericTaskUpdateView.as_view()),
+    path("detail-task/<pk>/", GenericTaskDetailView.as_view()),
     path("sessiontest", session_storage_view),
     path("user/signup", UserCreateView.as_view()),
     path("user/login", UserLoginView.as_view()),
-    path("reminder",ReminderTimeSetView.as_view()),
+    path("reminder", ReminderTimeSetView.as_view()),
     path("user/logout", LogoutView.as_view()),
-    path("test_bg",test_bg),
-    
+    path("test_bg", test_bg),
 ] + router.urls
